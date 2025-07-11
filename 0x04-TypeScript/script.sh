@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define base source and destination directories
-SRC_DIR="./task_0"
-DEST_DIR="./task_1"
+SRC_DIR="./task_1"
+DEST_DIR="./task_2"
 
 # List of individual files to copy
 FILES=("js/main.ts" ".eslintrc.js" "package.json" "tsconfig.json" "webpack.config.js")
