@@ -1,5 +1,5 @@
 interface Teacher {
-  readonly firstName: string;
+  readonly firstName: string; //modifiable only during initialization
   readonly lastName: string;
   fullTimeEmployee: boolean;
   yearsOfExperience?: number; // Optional property
@@ -15,6 +15,16 @@ const teacher1: Teacher = {
   age: 30, // Additional property
 };
 
-teacher1.yearsOfExperience = 5; // Optional property can be set
-teacher1.location = "Canada"; // Location can be changed
-console.log(teacher1);
+//interface Directors that extends Teacher
+interface Director extends Teacher {
+  numberOfReports: number;
+}
+const director1: Director = {
+  firstName: "Jane",
+  lastName: "Smith",
+  fullTimeEmployee: true,
+  location: "UK",
+  numberOfReports: 5,
+};
+
+console.log(director1);
