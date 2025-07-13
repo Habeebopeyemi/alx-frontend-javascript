@@ -9,7 +9,7 @@ fi
 TASK_NUM="$1"
 NEW_DIR="./task_$TASK_NUM"
 
-mkdir -p "$NEW_DIR"
+#mkdir -p "$NEW_DIR"
 # Create a new directory for the next TypeScript tasks
 mkdir -p "$NEW_DIR/js" && touch "$NEW_DIR/js/main.ts"
 
