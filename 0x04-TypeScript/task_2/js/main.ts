@@ -1,72 +1,7 @@
-interface Teacher {
-  readonly firstName: string; //modifiable only during initialization
-  readonly lastName: string;
-  fullTimeEmployee: boolean;
-  yearsOfExperience?: number; // Optional property
-  location: string;
-  [propName: string]: any; // Allows additional properties
-}
-
-// const teacher1: Teacher = {
-//   firstName: "John",
-//   lastName: "Doe",
-//   fullTimeEmployee: true,
-//   location: "USA",
-//   age: 30, // Additional property
-// };
-
-//interface Directors that extends Teacher
-interface Director extends Teacher {
-  numberOfReports: number;
-}
-// const director1: Director = {
-//   firstName: "Jane",
-//   lastName: "Smith",
-//   fullTimeEmployee: true,
-//   location: "UK",
-//   numberOfReports: 5,
-// };
-
-interface printTeacherFunction {
-  (firstName: string, lastName: string): string;
-}
-
-const printTeacher: printTeacherFunction = (firstName, lastName) => {
-  return `${firstName.charAt(0)}. ${lastName}`;
-};
-
-// Function to create a class constructor
-interface IStudent {
-  firstName: string;
-  lastName: string;
-  workOnHomework(): string;
-  displayName(): string;
-}
-interface IStudentConstructor {
-  new (firstName: string, lastName: string): IStudent;
-}
-class StudentClass implements IStudent {
-  firstName: string;
-  lastName: string;
-
-  constructor(firstName: string, lastName: string) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-
-  workOnHomework(): string {
-    return "Currently working";
-  }
-  displayName(): string {
-    return `${this.firstName}`;
-  }
-}
-
-const student1: IStudent = new StudentClass("Alice", "Johnson");
-
+//task_2 exercise 5
 interface DirectorInterface {
   workFromHome(): string;
-  getCoffeeBreak(): string;
+  getToWork(): string;
   workDirectorTasks(): string;
 }
 
@@ -81,7 +16,7 @@ class Director implements DirectorInterface {
     return "Working from home";
   }
 
-  getCoffeeBreak(): string {
+  getToWork(): string {
     return "Getting a coffee break";
   }
 
@@ -92,15 +27,15 @@ class Director implements DirectorInterface {
 
 class Teacher implements TeacherInterface {
   workFromHome(): string {
-    return "Working from home";
+    return "Cannot work from home";
   }
 
   getCoffeeBreak(): string {
-    return "Getting a coffee break";
+    return "Cannot have a break";
   }
 
   workTeacherTasks(): string {
-    return "Getting to work on teacher tasks";
+    return "Getting to work";
   }
 }
 
@@ -112,6 +47,49 @@ function createEmployee(salary: number | string): Director | Teacher {
   }
 }
 
-console.log(createEmployee(200));
-console.log(createEmployee(1000));
-console.log(createEmployee("$500"));
+// console.log(createEmployee(200));
+// console.log(createEmployee(1000));
+// console.log(createEmployee("$500"));
+/*
+Type Predicate Syntax:
+function isDirector(employee: Teacher | Director): employee is Director
+
+This doesn't just return true or false — it tells TypeScript:
+"If this function returns true, then treat employee as a Director inside the calling code."
+ */
+
+/*
+❌ Regular boolean function (not a type predicate):
+function isDirector(employee: Teacher | Director): boolean {
+  return employee instanceof Director;
+}
+
+This does return true or false, 
+but it doesn't help TypeScript narrow the type at compile time. 
+You’d still have to cast manually.
+ */
+//Task 2 exercise 6
+function isDirector(employee: Teacher | Director): employee is Director {
+  return (employee as Director).workDirectorTasks !== undefined;
+}
+
+function executeWork(employee: Teacher | Director): string {
+  if (isDirector(employee)) {
+    return employee.workDirectorTasks();
+  } else {
+    return employee.workTeacherTasks();
+  }
+}
+
+/*
+executeWork(createEmployee(200));
+executeWork(createEmployee(1000));
+ */
+//task_2 exercise 7
+type Subjects = "Math" | "History";
+
+function teachClass(todayClass: Subjects): string {
+  return todayClass === "Math" ? "Teaching Math" : "Teaching History";
+}
+console.log(teachClass("Math"));
+console.log(teachClass("History"));
